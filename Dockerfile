@@ -79,3 +79,7 @@ RUN set -xe; \
 		yarn \
 	;\
 	apt-get clean; rm -rf /var/lib/apt/lists/*;
+
+RUN chown www-data:www-data /var/www/html/
+USER www-data
+WORKDIR /var/www/html
