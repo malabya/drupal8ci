@@ -1,4 +1,4 @@
-FROM drupal:apache
+FROM drupal:8.8.5-apache
 
 RUN apt-get update && apt-get install -y \
   git \
@@ -23,7 +23,9 @@ RUN rm -rf ..?* .[!.]* *
 
 # Change docroot since we use Composer Drupal project.
 RUN sed -ri -e 's!/var/www/html!/var/www/html/docroot!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!80!8080!g' /etc/apache2/sites-available/000-default.conf
 RUN sed -ri -e 's!/var/www!/var/www/html/docroot!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+RUN sed -ri -e 's!Listen 80!Listen 8080!g' /etc/apache2/ports.conf
 
 # Install composer.
 COPY scripts/composer-installer.sh /tmp/composer-installer.sh
